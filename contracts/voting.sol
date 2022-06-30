@@ -8,8 +8,12 @@ bool votingStatus; // информация о статусе голосован�
         owner = msg.sender; // идентификация создателя контракта
     }
   
-function createVoting() public {
-    require (msg.sender == owner);
-    votingStatus = true;
+function initVoting() public view returns(bool _votingStatus) { //функция для инициализации создания голосования. Тип view чтобы не тратить средства 
+    if (msg.sender == owner) {
+    _votingStatus = true;
+    }
+    if (msg.sender != owner) {
+    _votingStatus = false;    
+    }
 }
 }
