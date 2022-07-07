@@ -13,13 +13,13 @@ let voting;
         await voting.deployed();
     })
 
-    it ("Voting has been created by the account owner", async function(){  // тест проверяет было ли создано голосование владельцем
+    it ("Create voting by owner.Voting has been created by the account owner.", async function(){  // тест проверяет было ли создано голосование владельцем
         await voting.createVoting();
         const votingstatus = await voting.CheckVotingStatus();
         console.log(votingstatus)
     })
 
-    it ("Voting has not been created by user2, only the acc owner can create a voting", async function(){ // тест запускается от 2-го аккаунта пытается создать голосование и выводит информацию
+    it ("Creating voting under acc2. Voting has not been created by user2 (acc2), only the  owner can create a voting", async function(){ // тест запускается от 2-го аккаунта пытается создать голосование и выводит информацию
         await voting.connect(acc2).createVoting();
         const votingstatus = await voting.CheckVotingStatus();
         console.log(votingstatus)
