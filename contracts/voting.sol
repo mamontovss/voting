@@ -3,17 +3,35 @@ pragma solidity ^0.8.0;
 
 contract voting{
 address public owner;
-bool votingStatus; // информация о статусе голосования создано ли оно или нет
+uint public id=0;
+ 
     constructor (){
         owner = msg.sender; // идентификация создателя контракта
     }
-  
-function initVoting() public view returns(bool _votingStatus) { //функция для инициализации создания голосования. Тип view чтобы не тратить средства 
+
+struct CandidateResults {
+    address candidateAddress;
+    uint candidateResults;
+    bool votingStatus; // информация о статусе голосования создано ли оно или нет
+}
+
+mapping (uint => CandidateResults) public vote;
+
+function createVoting() public  { // функция создания голосования
     if (msg.sender == owner) {
-    _votingStatus = true;
+    vote[0].votingStatus = true;
+  
     }
-    if (msg.sender != owner) {
-    _votingStatus = false;    
+   
+}
+
+function CheckVotingStatus() public view returns(bool _status){ //функция для проверки возможно инициализации создания голосования. Тип view чтобы не тратить средства 
+    if (vote[0].votingStatus == true) {
+    _status = true;
+  
+    }
+    if (vote[0].votingStatus == false) {
+    _status = false; 
     }
 }
 }
