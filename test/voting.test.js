@@ -4,10 +4,11 @@ const {ethers} = require("hardhat")
 describe ("voting", function (){
     let acc1;
     let acc2;
+    let acc3;
 let voting;
 
     beforeEach (async function(){
-        [acc1, acc2] =await ethers.getSigners()
+        [acc1, acc2,acc3] =await ethers.getSigners()
         const Voting = await ethers.getContractFactory("voting",acc1)
         voting = await Voting.deploy();
         await voting.deployed();
@@ -19,10 +20,21 @@ let voting;
         console.log(votingstatus)
     })
 
-    it ("Creating voting under acc2. Voting has not been created by user2 (acc2), only the  owner can create a voting", async function(){ // тест запускается от 2-го аккаунта пытается создать голосование и выводит информацию
+    it ("Creating voting under acc2. Voting has not been created by user2 (acc2), only the  owner can create a voting. The result must be false", async function(){ // тест запускается от 2-го аккаунта пытается создать голосование и выводит информацию
         await voting.connect(acc2).createVoting();
         const votingstatus = await voting.CheckVotingStatus();
         console.log(votingstatus)
+    })
+
+
+    
+    it ("Adding 2-new candidates. Candidate added", async function(){
+    await voting.addCandidate(acc2.address);
+    let lastCandidate = await voting.checkaddedCandidate();
+    console.log(lastCandidate);
+    await voting.addCandidate(acc3.address);
+    lastCandidate = await voting.checkaddedCandidate();
+    console.log(lastCandidate)
     })
 
    // it ("Voting has not been created by user2, only the acc owner can create a voting", async function(){
